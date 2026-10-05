@@ -1,6 +1,5 @@
 import Champion from '../models/Champion.js';
 
-// Listar todos os campeões (GET) formatados como "Lutador 1", "Lutador 2"...
 export const getAllChampions = async (req, res) => {
   try {
     const champions = await Champion.find();
@@ -21,7 +20,6 @@ export const getAllChampions = async (req, res) => {
   }
 };
 
-// Criar um novo campeão (POST)
 export const createChampion = async (req, res) => {
   try {
     const { name, nickname, category, country, wins, losses, defenses, stats } = req.body;

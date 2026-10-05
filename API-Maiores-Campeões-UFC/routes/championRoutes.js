@@ -1,12 +1,22 @@
 import express from 'express';
-import { getAllChampions, createChampion } from '../controllers/championController.js';
+import { 
+  getAllChampions, 
+  getChampionById, 
+  createChampion, 
+  updateChampion, 
+  deleteChampion 
+} from '../controllers/championController.js';
 
 const championRoutes = express.Router();
 
-// Rota GET: /champions
 championRoutes.get("/", getAllChampions);
 
-// Rota POST: /champions
+championRoutes.get("/:id", getChampionById);
+
 championRoutes.post("/", createChampion);
+
+championRoutes.put("/:id", updateChampion);
+
+championRoutes.delete("/:id", deleteChampion);
 
 export default championRoutes;
