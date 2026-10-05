@@ -1,73 +1,22 @@
-// Importar o Express
 import express from "express";
-// Importar o Mongoose
 import mongoose from "mongoose";
-// Importar o Model do UFC
-import Champion from "./models/Champion.js";
-// Importar as rotas
 import championRoutes from './routes/championRoutes.js';
 
-// 1. Carregando e criando a aplicação Express
 const app = express();
 
-// 2. Configurações e Middlewares do Express
+// Middleware para interpretar JSON
 app.use(express.json());
 
-// 3. Registrar as rotas (AGORA DEPOIS DE CRIAR O APP)
+// Registra as rotas no caminho /champions
 app.use("/champions", championRoutes);
 
-// ROTA PRINCIPAL DA API (Retorna os Maiores Campeões do UFC)
-app.get("/", (req, res) => {
-    // JSON com dados dos campeões do UFC
-    const champions = [
-        {
-            name: "Jon Jones",
-            nickname: "Bones",
-            category: "Meio-Pesado / Pesado",
-            defenses: 11,
-            wins: 27,
-            losses: 1,
-            country: "EUA"
-        },
-        {
-            name: "Georges St-Pierre",
-            nickname: "GSP",
-            category: "Meio-Médio",
-            defenses: 9,
-            wins: 26,
-            losses: 2,
-            country: "Canadá"
-        },
-        {
-            name: "Anderson Silva",
-            nickname: "The Spider",
-            category: "Médio",
-            defenses: 10,
-            wins: 34,
-            losses: 11,
-            country: "Brasil"
-        },
-        {
-            name: "Amanda Nunes",
-            nickname: "The Lioness",
-            category: "Galo / Pena",
-            defenses: 7,
-            wins: 23,
-            losses: 5,
-            country: "Brasil"
-        }
-    ];
+// Conexão com o MongoDB Atlas
+const mongoURI = "mongodb+srv://kauaroela180_db_user:kaua2006@cluster0.kivvbl8.mongodb.net/championsDB?retryWrites=true&w=majority";
 
-    // Configura o retorno da API
-    res.status(200).json(champions);
-});
-
-// Iniciando a conexão com o MongoDB
-mongoose.connect("mongodb://127.0.0.1:27017/apiufc")
-    .then(() => console.log("Conectado ao MongoDB com sucesso!"))
+mongoose.connect(mongoURI)
+    .then(() => console.log("Conectado ao MongoDB Atlas com sucesso!"))
     .catch((err) => console.log("Erro ao conectar ao MongoDB: " + err));
 
-// Iniciando o servidor da API
 const port = 4000;
 app.listen(port, (error) => {
     if (error) {

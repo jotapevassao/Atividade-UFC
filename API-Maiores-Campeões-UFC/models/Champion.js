@@ -1,16 +1,17 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const championSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    nickname: { type: String },
-    category: { type: String, required: true },
-    defenses: { type: Number, default: 0 },
-    wins: { type: Number },
-    losses: { type: Number },
-    country: { type: String }
+  name: { type: String, required: true },
+  nickname: { type: String },
+  category: { type: String, required: true },
+  country: { type: String },
+  stats: {
+    wins: { type: Number, default: 0 },
+    losses: { type: Number, default: 0 },
+    defenses: { type: Number, default: 0 }
+  }
 });
 
-const Champion = mongoose.model("Champion", championSchema);
+const Champion = mongoose.model('Champion', championSchema);
 
-// Esta linha resolve o erro do export named 'default'
 export default Champion;
