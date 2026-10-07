@@ -1,11 +1,15 @@
 import express from "express";
 import mongoose from "mongoose";
 import championRoutes from './routes/championRoutes.js';
+import authRoutes from './routes/authRoutes.js'; // 1. Importa as rotas de autenticação
 
 const app = express();
 
 // Middleware para interpretar JSON
 app.use(express.json());
+
+// 2. Registra a rota para gerar o token no caminho /auth
+app.use("/auth", authRoutes);
 
 // Registra as rotas no caminho /champions
 app.use("/champions", championRoutes);

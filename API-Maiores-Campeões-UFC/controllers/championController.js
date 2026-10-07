@@ -1,12 +1,13 @@
 import Champion from '../models/Champion.js';
 
+// Listar todos os campeões (GET)
 export const getAllChampions = async (req, res) => {
   try {
     const champions = await Champion.find();
     
-    // Mapeia os campeões adicionando a numeração amigável
     const formattedChampions = champions.map((champion, index) => ({
       id: `Lutador ${index + 1}`,
+      _id: champion._id,
       name: champion.name,
       nickname: champion.nickname,
       category: champion.category,
@@ -20,6 +21,20 @@ export const getAllChampions = async (req, res) => {
   }
 };
 
+// Buscar um campeão por ID (GET /:id)
+export const getChampionById = async (req, res) => {
+  try {
+    const champion = await Champion.findById(req.params.id);
+    if (!champion) {
+      return res.status(404).json({ message: "Campeão não encontrado!" });
+    }
+    res.status(200).json(champion);
+  } catch (error) {
+    res.status(400).json({ message: "ID inválido!" });
+  }
+};
+
+// Criar um novo campeão (POST)
 export const createChampion = async (req, res) => {
   try {
     const { name, nickname, category, country, wins, losses, defenses, stats } = req.body;
@@ -40,5 +55,35 @@ export const createChampion = async (req, res) => {
     res.status(201).json(newChampion);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+// Atualizar um campeão por ID (PUT /:id)
+export const updateChampion = async (req, res) => {
+  try {
+    const updatedChampion = await Champion.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    if (!updatedChampion) {
+      return res.status(404).json({ message: "Campeão não encontrado!" });
+    }
+    res.status(200).json(updatedChampion);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// Eliminar/Deletar um campeão por ID (DELETE /:id)
+export const deleteChampion = async (req, res) => {
+  try {
+    const champion = await Champion.findByIdAndDelete(req.params.id);
+    if (!champion) {
+      return res.status(404).json({ message: "Campeão não encontrado!" });
+    }
+    res.status(204).send();
+  } catch (error) {
+    res.status(400).json({ message: "ID inválido!" });
   }
 };
